@@ -155,3 +155,23 @@ All 30 Playwright tests passed cleanly in **23.2 seconds**:
 - **Portability**: All asset references are relative, meaning the build output contains no localhost references.
 
 The project is **100% ready for deployment** to GitHub Pages.
+
+---
+
+## 8. Targeted Fixes (July 16, 2026)
+
+We implemented four targeted fixes:
+1. **Resolved Duplicate Path in OG/Twitter/JSON-LD Image URLs**:
+   - Modified `src/layouts/Layout.astro` to dynamically construct `ogImageURL` using Astro's site origin and the relative path from `getPath('/og-image.png')`.
+   - Used this single verified URL for Open Graph, Twitter, and JSON-LD structured data fields.
+2. **Removed Unconfirmed Services Copy**:
+   - Replaced "Looking for a complete head shave, color blend, or facial?" on the home page (`src/pages/index.astro`) with "Explore our complete selection of grooming services."
+3. **Removed Unfinished Hours Disclaimer**:
+   - Replaced "Weekday opening times are subject to confirmation. Call ahead or stop by the shop." on the contact page (`src/pages/contact.astro`) with "Holiday hours may vary. Please call ahead."
+4. **Removed "Rates" Language**:
+   - Updated homepage CTA button from "View All Services & Rates" to "View All Services".
+   - Updated footer nav link from "Services & Rates" to "Services" inside `src/layouts/Layout.astro`.
+   - Updated services page title metadata from "Grooming Services & Rates" to "Grooming Services" inside `src/pages/services.astro`.
+
+All validations (`npm run check`, `npm run build`, and `npm run test:e2e`) completed successfully.
+
