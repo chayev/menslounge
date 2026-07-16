@@ -1,0 +1,474 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+// Import shop photos
+import store3Image from '../assets/shop/store3.webp';
+import store2Image from '../assets/shop/store2.webp';
+import store4Image from '../assets/shop/store4.webp';
+import storeImage from '../assets/shop/store.webp';
+import store5Image from '../assets/shop/store5.webp';
+import razorImage from '../assets/shop/image.webp';
+
+const galleryItems = [
+  { 
+    src: store3Image, 
+    alt: "Classic barber chairs beneath the illuminated hexagonal ceiling at The Men's Lounge", 
+    caption: "Barber stations beneath our custom hexagonal LED ceiling.",
+    eager: true
+  },
+  { 
+    src: store2Image, 
+    alt: "Barber chairs and styling mirrors under warm amber lighting inside the shop", 
+    caption: "The warm, relaxed atmosphere of our styling area.",
+    eager: true
+  },
+  { 
+    src: store4Image, 
+    alt: "Storefront and entrance of The Men's Lounge Barbershop on the Upper East Side", 
+    caption: "Our storefront entrance at 311 East 76th Street.",
+    eager: false
+  },
+  { 
+    src: storeImage, 
+    alt: "Interior view of The Men's Lounge showing styling chairs, brick wall, and guitar", 
+    caption: "Inside the lounge, showcasing rustic details and modern accents.",
+    eager: false
+  },
+  { 
+    src: store5Image, 
+    alt: "Close-up of the glowing barber pole in the shop storefront window", 
+    caption: "Our signature glowing barber pole greeting customers.",
+    eager: false
+  },
+  { 
+    src: razorImage, 
+    alt: "Traditional straight razors used for shaves and detailing at the shop", 
+    caption: "Meticulous grooming using traditional, high-quality straight razors.",
+    eager: false
+  }
+];
+---
+
+<Layout 
+  title="Shop Gallery | The Men’s Lounge Barbershop & Spa" 
+  description="Explore photos of The Men’s Lounge Barbershop & Spa on the Upper East Side. See our custom hexagonal ceiling, vintage barber chairs, and clean design."
+>
+  <!-- Subpage Hero -->
+  <section class="subpage-hero" aria-label="Gallery Page Introduction">
+    <div class="container">
+      <span class="section-subtitle">Visual Tour</span>
+      <h1>Inside the Shop</h1>
+      <p>Take a look around our space. We combine classic barbering details with modern lounge comforts.</p>
+    </div>
+  </section>
+
+  <!-- Editorial Grid -->
+  <section class="gallery-section section-spacing">
+    <div class="container">
+      <div class="editorial-grid">
+        {galleryItems.map((item, index) => (
+          <button 
+            class="gallery-card-btn" 
+            data-index={index} 
+            data-src={item.src.src} 
+            data-alt={item.alt} 
+            data-caption={item.caption}
+            aria-haspopup="dialog"
+            aria-label={`Open large view of ${item.caption}`}
+          >
+            <span class="zoom-indicator" aria-hidden="true">🔍</span>
+            <Image 
+              src={item.src} 
+              alt={item.alt} 
+              class="grid-img"
+              loading={item.eager ? "eager" : "lazy"}
+              width={600}
+              height={450}
+            />
+            <div class="card-caption-strip">
+              <p>{item.caption}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Accessible Lightbox Modal -->
+  <div 
+    id="lightbox-modal" 
+    class="lightbox-modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-hidden="true" 
+    aria-label="Image lightbox" 
+    tabindex="-1"
+  >
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    
+    <div class="lightbox-wrapper">
+      <!-- Lightbox Controls -->
+      <button id="lightbox-btn-close" class="lightbox-ctrl-btn lightbox-btn-close" aria-label="Close Lightbox">
+        &times;
+      </button>
+      <button id="lightbox-btn-prev" class="lightbox-ctrl-btn lightbox-btn-prev" aria-label="Previous Image">
+        &#10094;
+      </button>
+      <button id="lightbox-btn-next" class="lightbox-ctrl-btn lightbox-btn-next" aria-label="Next Image">
+        &#10095;
+      </button>
+
+      <!-- Lightbox Content -->
+      <div class="lightbox-content-box">
+        <img id="lightbox-display-img" src="" alt="" class="lightbox-img" />
+        <div id="lightbox-caption-text" class="lightbox-caption"></div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Editorial Grid Layout */
+  .editorial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  
+  .gallery-card-btn {
+    background: none;
+    border: 1px solid var(--steel);
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    transition: all var(--transition-normal);
+  }
+  
+  .gallery-card-btn:hover, .gallery-card-btn:focus {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    outline: none;
+  }
+  
+  .grid-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-normal);
+  }
+  
+  .gallery-card-btn:hover .grid-img {
+    transform: scale(1.02);
+  }
+  
+  .zoom-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(11, 12, 14, 0.85);
+    color: var(--accent);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    border: 1px solid rgba(250, 248, 245, 0.1);
+  }
+  
+  .gallery-card-btn:hover .zoom-indicator,
+  .gallery-card-btn:focus .zoom-indicator {
+    opacity: 1;
+  }
+  
+  .card-caption-strip {
+    background-color: var(--charcoal);
+    padding: 15px;
+    width: 100%;
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+    flex-grow: 1;
+  }
+  
+  .card-caption-strip p {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: 900px) {
+    .editorial-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .editorial-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .grid-img {
+      height: 220px;
+    }
+  }
+
+  /* Lightbox Modal CSS */
+  .lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none; /* Toggled by JS */
+    align-items: center;
+    justify-content: center;
+    outline: none;
+  }
+  
+  .lightbox-modal[aria-hidden="false"] {
+    display: flex;
+  }
+  
+  .lightbox-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 12, 14, 0.95);
+  }
+  
+  .lightbox-wrapper {
+    position: relative;
+    z-index: 1010;
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .lightbox-content-box {
+    width: 100%;
+    background-color: var(--charcoal);
+    border: 1px solid var(--steel);
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  }
+  
+  .lightbox-img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    display: block;
+    background-color: var(--ink);
+    border-radius: 2px;
+  }
+  
+  .lightbox-caption {
+    padding: 15px 10px 5px 10px;
+    color: var(--ivory);
+    font-size: 1.05rem;
+    text-align: center;
+    font-family: var(--font-body);
+  }
+  
+  /* Controls */
+  .lightbox-ctrl-btn {
+    position: absolute;
+    background-color: rgba(11, 12, 14, 0.8);
+    color: var(--ivory);
+    border: 1px solid var(--steel);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all var(--transition-fast);
+    z-index: 1020;
+  }
+  
+  .lightbox-ctrl-btn:hover, .lightbox-ctrl-btn:focus {
+    background-color: var(--accent);
+    color: var(--text-dark);
+    border-color: var(--accent);
+    outline: none;
+  }
+  
+  .lightbox-btn-close {
+    top: -50px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+  
+  .lightbox-btn-prev {
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+  }
+  
+  .lightbox-btn-next {
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+  }
+  
+  @media (max-width: 1024px) {
+    .lightbox-btn-prev {
+      left: 10px;
+      top: auto;
+      bottom: -60px;
+      transform: none;
+    }
+    .lightbox-btn-next {
+      right: 10px;
+      top: auto;
+      bottom: -60px;
+      transform: none;
+    }
+    .lightbox-btn-close {
+      right: 10px;
+    }
+    .lightbox-wrapper {
+      margin-bottom: 60px;
+    }
+  }
+</style>
+
+<script>
+  // Lightbox Functionality
+  const modal = document.getElementById('lightbox-modal') as HTMLElement | null;
+  const backdrop = document.getElementById('lightbox-backdrop') as HTMLElement | null;
+  const closeBtn = document.getElementById('lightbox-btn-close') as HTMLButtonElement | null;
+  const prevBtn = document.getElementById('lightbox-btn-prev') as HTMLButtonElement | null;
+  const nextBtn = document.getElementById('lightbox-btn-next') as HTMLButtonElement | null;
+  const displayImg = document.getElementById('lightbox-display-img') as HTMLImageElement | null;
+  const captionText = document.getElementById('lightbox-caption-text') as HTMLElement | null;
+  
+  const triggerButtons = document.querySelectorAll('.gallery-card-btn');
+  let currentTriggerIndex = -1;
+  let lastActiveElement: HTMLElement | null = null;
+
+  if (modal && backdrop && closeBtn && prevBtn && nextBtn && displayImg && captionText) {
+    
+    const openLightbox = (index: number) => {
+      const button = triggerButtons[index] as HTMLButtonElement;
+      if (!button) return;
+      
+      currentTriggerIndex = index;
+      lastActiveElement = button;
+
+      const src = button.getAttribute('data-src') || '';
+      const alt = button.getAttribute('data-alt') || '';
+      const caption = button.getAttribute('data-caption') || '';
+
+      displayImg.src = src;
+      displayImg.alt = alt;
+      captionText.textContent = caption;
+
+      modal.setAttribute('aria-hidden', 'false');
+      closeBtn.focus();
+      
+      // Prevent body scrolling
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      
+      if (lastActiveElement) {
+        lastActiveElement.focus();
+      }
+    };
+
+    const showNext = () => {
+      let nextIndex = currentTriggerIndex + 1;
+      if (nextIndex >= triggerButtons.length) {
+        nextIndex = 0;
+      }
+      openLightbox(nextIndex);
+    };
+
+    const showPrev = () => {
+      let prevIndex = currentTriggerIndex - 1;
+      if (prevIndex < 0) {
+        prevIndex = triggerButtons.length - 1;
+      }
+      openLightbox(prevIndex);
+    };
+
+    // Event Listeners
+    triggerButtons.forEach((btn, index) => {
+      btn.addEventListener('click', () => openLightbox(index));
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    backdrop.addEventListener('click', closeLightbox);
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+
+    // Keyboard handlers
+    modal.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (modal.getAttribute('aria-hidden') === 'true') return;
+
+      switch(e.key) {
+        case 'Escape':
+          closeLightbox();
+          e.preventDefault();
+          break;
+        case 'ArrowRight':
+          showNext();
+          e.preventDefault();
+          break;
+        case 'ArrowLeft':
+          showPrev();
+          e.preventDefault();
+          break;
+        case 'Tab':
+          // Focus trap
+          const activeEl = document.activeElement;
+          
+          if (e.shiftKey) {
+            // Shift + Tab: trap back to closeBtn if on prev or wrap to next
+            if (activeEl === closeBtn) {
+              nextBtn.focus();
+              e.preventDefault();
+            }
+          } else {
+            // Tab: trap forward to closeBtn if on next
+            if (activeEl === nextBtn) {
+              closeBtn.focus();
+              e.preventDefault();
+            }
+          }
+          break;
+      }
+    });
+  }
+</script>

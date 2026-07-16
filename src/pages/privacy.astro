@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { businessData } from '../data/business';
+---
+
+<Layout 
+  title="Privacy Policy | The Men’s Lounge Barbershop & Spa" 
+  description="Privacy policy for The Men’s Lounge Barbershop & Spa. Our website is static and does not collect or track user data."
+>
+  <section class="subpage-hero" aria-label="Privacy Page Introduction">
+    <div class="container">
+      <span class="section-subtitle">Disclosures</span>
+      <h1>Privacy Policy</h1>
+      <p>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+    </div>
+  </section>
+
+  <section class="privacy-content-section section-spacing">
+    <div class="container">
+      <div class="privacy-box">
+        <h2>Static Website Privacy Statement</h2>
+        <p>
+          At <strong>{businessData.officialName}</strong>, we respect your privacy. This website is a static HTML site hosted on GitHub Pages. 
+        </p>
+
+        <h3>1. Information We Collect</h3>
+        <p>
+          We do not collect, store, or process any personal identification information (PII) through this website. There are no contact forms, user database accounts, or newsletter subscriptions.
+        </p>
+
+        <h3>2. Cookies and Tracking</h3>
+        <p>
+          This website does not use cookies, tracking pixels, or dynamic session states. We do not use third-party analytics scripts (such as Google Analytics) at this time. If analytics or online booking integrations are added in the future, this policy will be updated to reflect those changes.
+        </p>
+
+        <h3>3. External Links</h3>
+        <p>
+          Our site contains outbound links to external services such as Instagram, Yelp, Facebook, and Google Maps. These external web pages operate under their own privacy policies. We encourage you to review their policies when visiting them:
+        </p>
+        <ul>
+          <li><a href={businessData.socials.instagram} target="_blank" rel="noopener noreferrer">Instagram Privacy Policy</a></li>
+          <li><a href={businessData.socials.yelp} target="_blank" rel="noopener noreferrer">Yelp Privacy Policy</a></li>
+          <li><a href={businessData.socials.facebook} target="_blank" rel="noopener noreferrer">Facebook Privacy Policy</a></li>
+          <li><a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer">Google Privacy Policy</a></li>
+        </ul>
+
+        <h3>4. Web Server Logs</h3>
+        <p>
+          Because our site is hosted on GitHub Pages, GitHub may collect basic web logs from your browser (including your IP address, browser type, referrer headers, and request timestamps) to maintain server security and resolve system bugs. This information is controlled by GitHub under their global privacy policies.
+        </p>
+
+        <h3>5. Contacting Us</h3>
+        <p>
+          If you have questions about our privacy statement, please call us directly at <a href={`tel:${businessData.phone}`}>{businessData.displayPhone}</a> or visit us at {businessData.streetAddress}, New York, NY {businessData.postalCode}.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .privacy-box {
+    background-color: var(--charcoal);
+    border: 1px solid var(--steel);
+    border-radius: 4px;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .privacy-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+  }
+  
+  .privacy-box h3 {
+    font-size: 1.25rem;
+    margin-top: 30px;
+    margin-bottom: 12px;
+    color: var(--ivory);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  
+  .privacy-box p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  .privacy-box ul {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .privacy-box a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  
+  .privacy-box a:hover {
+    color: var(--amber-hover);
+  }
+</style>

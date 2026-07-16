@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { businessData } from '../data/business';
+---
+
+<Layout 
+  title="Page Not Found | The Men’s Lounge Barbershop & Spa" 
+  description="The page you are looking for does not exist. Visit the home page or call us to book your appointment."
+>
+  <section class="not-found-section" aria-label="Error page content">
+    <div class="container not-found-content">
+      <div class="glow-sphere-blue"></div>
+      
+      <span class="error-code">404</span>
+      <h1 class="error-title">Chair Not Found</h1>
+      <div class="header-line" style="margin-bottom: 25px;"></div>
+      
+      <p class="error-text">
+        It looks like the page you are looking for has been moved or does not exist. Let's get you back on track.
+      </p>
+
+      <div class="error-actions">
+        <a href={import.meta.env.BASE_URL} class="btn btn-primary">Go to Home Page</a>
+        <a href={`tel:${businessData.phone}`} class="btn btn-accent">Call to Book</a>
+        <a href={`${import.meta.env.BASE_URL}services/`} class="btn btn-secondary">Our Services</a>
+      </div>
+
+      <div class="error-footer-text">
+        <p><strong>{businessData.officialName}</strong></p>
+        <p>📍 {businessData.streetAddress}, New York, NY {businessData.postalCode}</p>
+        <p>📞 {businessData.displayPhone}</p>
+      </div>
+      
+      <div class="glow-sphere-amber"></div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 60px 0;
+    overflow: hidden;
+  }
+  
+  .not-found-content {
+    max-width: 650px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .error-code {
+    font-family: var(--font-heading);
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--steel);
+    display: block;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px rgba(29, 78, 216, 0.15);
+  }
+  
+  .error-title {
+    font-size: 2.5rem;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    color: var(--ivory);
+  }
+  
+  .error-text {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  
+  .error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+  
+  .error-actions .btn {
+    min-width: 160px;
+  }
+  
+  .error-footer-text {
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+    padding-top: 35px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  
+  /* Decorative Glow Spheres */
+  .glow-sphere-blue {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: var(--accent-secondary);
+    filter: blur(100px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .glow-sphere-amber {
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    filter: blur(100px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (max-width: 600px) {
+    .error-code {
+      font-size: 5rem;
+    }
+    .error-title {
+      font-size: 2rem;
+    }
+    .error-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    .error-actions .btn {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+</style>

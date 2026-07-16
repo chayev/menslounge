@@ -1,0 +1,971 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { businessData } from '../data/business';
+
+// Import local assets
+import heroImage from '../assets/shop/store3.webp';
+import aboutImage from '../assets/shop/store2.webp';
+import visitImage from '../assets/shop/store4.webp';
+import chairImage from '../assets/shop/store.webp';
+import poleImage from '../assets/shop/store5.webp';
+import razorImage from '../assets/shop/image.webp';
+
+// Filter signature services (first 4 published ones)
+const signatureServices = businessData.services
+  .filter(s => s.published)
+  .slice(0, 4);
+
+// Yelp trust info
+const yelpRating = "4.5";
+const yelpReviewsCount = "100+";
+---
+
+<Layout 
+  title="The Men’s Lounge Barbershop & Spa | Upper East Side Barber" 
+  description="Precision haircuts, beard trims, head shaves, and traditional hot-towel shaves at The Men’s Lounge, 311 East 76th Street on Manhattan’s Upper East Side."
+>
+  <!-- Hero Section -->
+  <section class="hero-section" aria-label="Welcome">
+    <div class="hero-bg-container">
+      <Image 
+        src={heroImage} 
+        alt="Interior of The Men's Lounge Barbershop showing classic chairs, brick walls, and the illuminated hexagonal ceiling" 
+        class="hero-bg-image" 
+        priority
+        loading="eager"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+    
+    <div class="container hero-content">
+      <p class="hero-eyebrow">📍 {businessData.streetAddress} · {businessData.neighborhood}</p>
+      <h1 class="hero-title">Upper East Side grooming, done right.</h1>
+      <p class="hero-subtext">
+        Precision haircuts, detailed beard work, and traditional hot-towel shaves in a neighborhood shop built around craft, comfort, and consistency.
+      </p>
+      <div class="hero-actions">
+        <a href={`tel:${businessData.phone}`} class="btn btn-primary">
+          Call to Book
+        </a>
+        <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Strip -->
+  <section class="trust-strip" aria-label="Trust and Qualifications">
+    <div class="container trust-grid">
+      <div class="trust-item">
+        <span class="trust-value">★ {yelpRating}</span>
+        <span class="trust-label">Stars on Yelp</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-value">{yelpReviewsCount}</span>
+        <span class="trust-label">Yelp Customer Reviews</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-value">Walk-Ins</span>
+        <span class="trust-label">Always Welcome</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-value">NYC UES</span>
+        <span class="trust-label">East 76th & 2nd Ave</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signature Services -->
+  <section class="services-preview section-spacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Our Craft</span>
+        <h2 class="section-title">Signature Services</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="services-grid">
+        {signatureServices.map(service => (
+          <div class="service-card">
+            <h3 class="service-card-title">{service.name}</h3>
+            <p class="service-card-desc">{service.description}</p>
+            <span class="service-card-price">
+              {service.price ? `$${service.price}` : "Call for Pricing"}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div class="services-cta-container">
+        <p>Looking for a complete head shave, color blend, or facial?</p>
+        <a href={`${import.meta.env.BASE_URL}services/`} class="btn btn-secondary">View All Services & Rates</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- "More than a quick cut" + Atmosphere -->
+  <section class="experience-section section-spacing">
+    <div class="container">
+      <!-- Split Row 1: Consultation -->
+      <div class="experience-row">
+        <div class="experience-image-wrapper">
+          <Image 
+            src={aboutImage} 
+            alt="Barber chairs beneath warm lighting and the glowing geometric ceiling at The Men's Lounge" 
+            class="experience-image"
+          />
+          <div class="blue-glow-accent"></div>
+        </div>
+        <div class="experience-text-wrapper">
+          <span class="section-subtitle">The Experience</span>
+          <h2 class="section-title">More than a quick cut</h2>
+          <p>
+            At {businessData.shortName}, we don't believe in rushing you through the chair. Every service begins with a detailed consultation. Before the first clip or cut, tell us how you wear your hair, what has worked before, and what you want changed.
+          </p>
+          <p>
+            We combine modern barbering aesthetics with meticulous scissor work and traditional straight-razor detailing. It's a structured approach focused on consistency, ensuring you get the exact same high-quality haircut every single visit.
+          </p>
+        </div>
+      </div>
+
+      <!-- Split Row 2: Atmosphere -->
+      <div class="experience-row reverse">
+        <div class="experience-image-wrapper">
+          <Image 
+            src={chairImage} 
+            alt="Interior view of The Men's Lounge highlighting the brick wall layout and details" 
+            class="experience-image"
+          />
+          <div class="amber-glow-accent"></div>
+        </div>
+        <div class="experience-text-wrapper">
+          <span class="section-subtitle">The Space</span>
+          <h2 class="section-title">A Neighborhood Lounge</h2>
+          <p>
+            Our space blends the rustic charm of classic New York architecture with modern refinements. Featuring exposed brick walls, vintage leather barber chairs, and warm wood accents, the shop provides an atmosphere where you can wind down.
+          </p>
+          <p>
+            Overhead, our custom hexagonal LED ceiling lights add a clean, contemporary energy. Whether you are coming in for a quick clean-up or a full haircut and straight-razor shave combo, you are entering a space designed entirely around comfort and relaxation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Preview -->
+  <section class="gallery-preview-section section-spacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Visuals</span>
+        <h2 class="section-title">Inside the Lounge</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item-large">
+          <Image 
+            src={heroImage} 
+            alt="Overview of classic barber chairs and warm brick walls" 
+            class="gallery-img"
+          />
+        </div>
+        <div class="gallery-item-small">
+          <Image 
+            src={poleImage} 
+            alt="Close view of the illuminated barber pole at the storefront window" 
+            class="gallery-img"
+          />
+        </div>
+        <div class="gallery-item-small">
+          <Image 
+            src={razorImage} 
+            alt="Traditional straight razors used for professional hot-towel shaves" 
+            class="gallery-img"
+          />
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a href={`${import.meta.env.BASE_URL}gallery/`} class="btn btn-secondary">View Full Gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Review Highlights -->
+  <section class="reviews-section section-spacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Feedback</span>
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="header-line"></div>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <span class="review-stars">★★★★★</span>
+          <p class="review-text">“Best haircut I’ve ever received in New York.”</p>
+          <span class="review-author">Yelp Customer Review</span>
+        </div>
+        <div class="review-card">
+          <span class="review-stars">★★★★★</span>
+          <p class="review-text">“You feel taken care of in there.”</p>
+          <span class="review-author">Yelp Customer Review</span>
+        </div>
+        <div class="review-card">
+          <span class="review-stars">★★★★★</span>
+          <p class="review-text">“The ultimate shaving experience.”</p>
+          <span class="review-author">Yelp Customer Review</span>
+        </div>
+      </div>
+
+      <p class="reviews-link-info">
+        Read more reviews or share your own experience on 
+        <a href={businessData.socials.yelp} target="_blank" rel="noopener noreferrer" class="reviews-yelp-link">Yelp</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Meet David -->
+  <section class="owner-section section-spacing">
+    <div class="container owner-container">
+      <div class="owner-graphic">
+        <div class="monogram-box">
+          <span>ML</span>
+        </div>
+      </div>
+      <div class="owner-content">
+        <span class="section-subtitle">The Owner</span>
+        <h2 class="section-title">Meet David</h2>
+        <p>
+          Owner and barber David is frequently recognized by clients for his personal attention, precision, and the care he puts into getting the details right. Building {businessData.officialName} was about creating a comfortable neighborhood space where clients receive consistent, meticulous grooming service.
+        </p>
+        <p>
+          David and the team prioritize quality conversations, listening closely to customer requests, and applying traditional techniques to modern styles.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visit Section -->
+  <section class="visit-section section-spacing">
+    <div class="container visit-container">
+      <div class="visit-text-col">
+        <span class="section-subtitle">Location & Hours</span>
+        <h2 class="section-title">Visit the Shop</h2>
+        <p class="visit-address">
+          <strong>{businessData.officialName}</strong><br />
+          {businessData.streetAddress}<br />
+          {businessData.addressLocality}, {businessData.addressRegion} {businessData.postalCode}
+        </p>
+        <p class="visit-phone">
+          <strong>Phone:</strong> <a href={`tel:${businessData.phone}`}>{businessData.displayPhone}</a>
+        </p>
+        
+        <div class="visit-hours-box">
+          <h3>Hours</h3>
+          <ul style="list-style: none;">
+            {businessData.hours.map(h => (
+              <li style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span>{h.day}:</span>
+                <span style="font-weight: 500;">{h.closed ? 'Closed' : `${h.opens} – ${h.closes}`}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div class="visit-actions">
+          <a href={`tel:${businessData.phone}`} class="btn btn-primary">Call to Book</a>
+          <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Get Directions</a>
+        </div>
+      </div>
+      
+      <div class="visit-img-col">
+        <Image 
+          src={visitImage} 
+          alt="Storefront and entrance of The Men's Lounge Barbershop on East 76th Street" 
+          class="visit-store-img"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta-section">
+    <div class="container final-cta-content">
+      <h2>Your Chair is Waiting</h2>
+      <p>Enjoy premium grooming with personal attention in a comfortable neighborhood environment.</p>
+      <div class="final-cta-buttons">
+        <a href={`tel:${businessData.phone}`} class="btn btn-primary">Call to Book</a>
+        <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Get Directions</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero styles */
+  .hero-section {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    max-height: 750px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .hero-bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      180deg, 
+      rgba(11, 12, 14, 0.4) 0%, 
+      rgba(11, 12, 14, 0.9) 100%
+    );
+    z-index: 2;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    padding-top: 40px;
+  }
+  
+  .hero-eyebrow {
+    font-family: var(--font-heading);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  .hero-title {
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+  
+  .hero-subtext {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    max-width: 650px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      height: auto;
+      padding-top: 100px;
+      padding-bottom: 80px;
+    }
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    .hero-subtext {
+      font-size: 1.1rem;
+    }
+    .hero-actions {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  /* Trust Strip */
+  .trust-strip {
+    background-color: var(--charcoal);
+    border-bottom: 1px solid rgba(250, 248, 245, 0.05);
+    padding: 25px 0;
+  }
+  
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .trust-value {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  
+  .trust-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-top: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    .trust-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .trust-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* Section Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .section-subtitle {
+    font-family: var(--font-heading);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 1.05rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .header-line {
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent);
+    margin: 0 auto;
+  }
+
+  /* Services Preview */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .service-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--steel);
+    padding: 30px;
+    border-radius: 4px;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-secondary) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .service-card:hover::before {
+    opacity: 1;
+  }
+  
+  .service-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--ivory);
+  }
+  
+  .service-card-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  
+  .service-card-price {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
+  .services-cta-container {
+    text-align: center;
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+    padding-top: 40px;
+  }
+  
+  .services-cta-container p {
+    margin-bottom: 20px;
+    color: var(--text-muted);
+  }
+  
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* Experience / About splits */
+  .experience-row {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 100px;
+  }
+  
+  .experience-row.reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .experience-row:last-child {
+    margin-bottom: 0;
+  }
+  
+  .experience-image-wrapper {
+    flex: 1;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .experience-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+    border-radius: 4px;
+    display: block;
+  }
+  
+  .blue-glow-accent {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--accent-secondary);
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .amber-glow-accent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  .experience-text-wrapper {
+    flex: 1;
+  }
+  
+  .experience-text-wrapper h2 {
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+  }
+  
+  .experience-text-wrapper p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+  }
+  
+  @media (max-width: 900px) {
+    .experience-row, .experience-row.reverse {
+      flex-direction: column;
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    .experience-image-wrapper {
+      width: 100%;
+    }
+  }
+
+  /* Gallery Preview grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(2, 200px);
+    gap: 20px;
+  }
+  
+  .gallery-item-large {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .gallery-item-small {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+  }
+  
+  .gallery-item-large:hover .gallery-img,
+  .gallery-item-small:hover .gallery-img {
+    transform: scale(1.03);
+  }
+  
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, 200px);
+    }
+    .gallery-item-large {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+  }
+
+  /* Reviews */
+  .reviews-section {
+    background-color: var(--charcoal);
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+    border-bottom: 1px solid rgba(250, 248, 245, 0.05);
+  }
+  
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .review-card {
+    background-color: var(--bg-main);
+    border: 1px solid rgba(250, 248, 245, 0.05);
+    padding: 30px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .review-stars {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .review-text {
+    font-style: italic;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  
+  .review-author {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .reviews-link-info {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  
+  .reviews-yelp-link {
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  
+  .reviews-yelp-link:hover {
+    color: var(--amber-hover);
+  }
+  
+  @media (max-width: 900px) {
+    .reviews-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* Owner Section (Meet David) */
+  .owner-container {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    background-color: var(--charcoal);
+    border-radius: 4px;
+    border: 1px solid var(--steel);
+    padding: 50px;
+  }
+  
+  .owner-graphic {
+    flex-shrink: 0;
+  }
+  
+  .monogram-box {
+    width: 140px;
+    height: 140px;
+    border: 2px solid var(--steel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  .monogram-box::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px dashed var(--accent);
+    border-radius: 50%;
+  }
+  
+  .monogram-box span {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  
+  .owner-content {
+    flex-grow: 1;
+  }
+  
+  .owner-content h2 {
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+  }
+  
+  .owner-content p {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+  }
+  
+  @media (max-width: 768px) {
+    .owner-container {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px;
+      gap: 30px;
+    }
+  }
+
+  /* Visit Section */
+  .visit-container {
+    display: flex;
+    gap: 60px;
+    align-items: stretch;
+  }
+  
+  .visit-text-col {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .visit-text-col h2 {
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+  }
+  
+  .visit-address {
+    font-size: 1.15rem;
+    color: var(--text-main);
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+  
+  .visit-address a:hover {
+    color: var(--accent);
+  }
+  
+  .visit-phone {
+    font-size: 1.15rem;
+    margin-bottom: 25px;
+  }
+  
+  .visit-phone a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  
+  .visit-phone a:hover {
+    color: var(--amber-hover);
+  }
+  
+  .visit-hours-box {
+    background-color: var(--charcoal);
+    border: 1px solid rgba(250, 248, 245, 0.05);
+    border-radius: 4px;
+    padding: 25px;
+    margin-bottom: 30px;
+    max-width: 450px;
+  }
+  
+  .visit-hours-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(250, 248, 245, 0.05);
+    padding-bottom: 8px;
+  }
+  
+  .visit-actions {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .visit-img-col {
+    flex: 0.8;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .visit-store-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    min-height: 350px;
+  }
+  
+  @media (max-width: 900px) {
+    .visit-container {
+      flex-direction: column;
+      gap: 40px;
+    }
+    .visit-img-col {
+      width: 100%;
+    }
+    .visit-hours-box {
+      max-width: 100%;
+    }
+  }
+
+  /* Final CTA */
+  .final-cta-section {
+    background: linear-gradient(180deg, var(--ink) 0%, var(--charcoal) 100%);
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+    padding: 100px 0;
+    text-align: center;
+  }
+  
+  .final-cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .final-cta-content h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .final-cta-content p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 35px;
+  }
+  
+  .final-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  @media (max-width: 600px) {
+    .final-cta-content h2 {
+      font-size: 2.2rem;
+    }
+    .final-cta-content p {
+      font-size: 1.05rem;
+    }
+    .final-cta-buttons {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    .final-cta-buttons .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

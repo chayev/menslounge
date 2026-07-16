@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { businessData } from '../data/business';
+
+// Import storefront asset
+import storefrontImage from '../assets/shop/store4.webp';
+
+// Search-based google maps embed URL using the official business address
+const googleMapsEmbedUrl = "https://maps.google.com/maps?q=The+Mens+Lounge+Barbershop+%26+Spa%2C+311+E+76th+St%2C+New+York%2C+NY+10021&t=&z=16&ie=UTF8&iwloc=&output=embed";
+---
+
+<Layout 
+  title="Location, Hours & Contact | The Men’s Lounge Barbershop & Spa" 
+  description="Visit The Men’s Lounge at 311 East 76th Street on Manhattan's Upper East Side. Find our hours, contact number, transit directions, and map."
+>
+  <!-- Subpage Hero -->
+  <section class="subpage-hero" aria-label="Contact Page Introduction">
+    <div class="container">
+      <span class="section-subtitle">Visit Us</span>
+      <h1>Location & Contact</h1>
+      <p>Conveniently located on Manhattan's Upper East Side. Stop by or call to book your appointment.</p>
+    </div>
+  </section>
+
+  <!-- Contact Detail Grid -->
+  <section class="contact-details-section section-spacing">
+    <div class="container contact-grid">
+      <!-- Info Column -->
+      <div class="info-column">
+        <div class="contact-card">
+          <h2>Getting in Touch</h2>
+          
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">📞</span>
+            <div>
+              <h3>Phone Number</h3>
+              <p><a href={`tel:${businessData.phone}`} class="contact-link">{businessData.displayPhone}</a></p>
+              <p class="subtext">Call to book. Walk-ins are always welcome based on chair availability.</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">📍</span>
+            <div>
+              <h3>Street Address</h3>
+              <p>
+                <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer" class="contact-link">
+                  {businessData.streetAddress}<br />
+                  {businessData.addressLocality}, {businessData.addressRegion} {businessData.postalCode}
+                </a>
+              </p>
+              <p class="subtext">Located between 2nd Avenue and 1st Avenue on Manhattan's Upper East Side / Yorkville.</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">🚇</span>
+            <div>
+              <h3>Subway & Transit</h3>
+              <p><strong>77th St Station</strong> (6 Train) — 3 blocks west.</p>
+              <p><strong>72nd St Station</strong> (Q Train) — 4 blocks southwest.</p>
+              <p><strong>M15 Select Bus Service</strong> (2nd Ave / 76th St stop) — half a block away.</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">♿</span>
+            <div>
+              <h3>Accessibility & Policy</h3>
+              <p>
+                {businessData.wheelchairAccessible ? "✓ Wheelchair Accessible Entrance" : "Please call ahead for accessibility assistance"}<br />
+                {businessData.walkInsWelcome ? "✓ Walk-Ins Welcome" : "Appointment Only"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="storefront-card">
+          <Image 
+            src={storefrontImage} 
+            alt="Storefront and entrance of The Men's Lounge Barbershop on East 76th Street" 
+            class="storefront-image"
+          />
+          <div class="storefront-caption">
+            <p>Look for our clean storefront and traditional glowing barber pole window treatment.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map & Hours Column -->
+      <div class="map-column">
+        <div class="hours-card">
+          <h2>Hours of Operation</h2>
+          <table class="hours-table">
+            <tbody>
+              {businessData.hours.map(h => (
+                <tr class={h.day === 'Saturday' || h.day === 'Sunday' ? 'weekend-row' : ''}>
+                  <td><strong>{h.day}</strong></td>
+                  <td style="text-align: right;">{h.closed ? 'Closed' : `${h.opens} – ${h.closes}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="hours-note">
+            * Weekday opening times are subject to confirmation. Call ahead or stop by the shop.
+          </p>
+        </div>
+
+        <div class="map-card">
+          <iframe 
+            src={googleMapsEmbedUrl} 
+            width="100%" 
+            height="400" 
+            style="border:0; border-radius: 4px;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Google Maps Location for The Men's Lounge Barbershop & Spa"
+          ></iframe>
+          <div style="margin-top: 15px; text-align: center;">
+            <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer" class="btn btn-accent btn-directions">
+              Get GPS Directions
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Contact page layout grid */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  
+  .contact-card, .hours-card, .map-card, .storefront-card {
+    background-color: var(--charcoal);
+    border: 1px solid var(--steel);
+    border-radius: 4px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .contact-card h2, .hours-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(250, 248, 245, 0.05);
+    padding-bottom: 10px;
+  }
+  
+  .contact-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .contact-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .contact-icon {
+    font-size: 1.5rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 30px;
+    text-align: center;
+  }
+  
+  .contact-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--ivory);
+  }
+  
+  .contact-link {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  
+  .contact-link:hover {
+    color: var(--amber-hover);
+    text-decoration: underline;
+  }
+  
+  .subtext {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  
+  /* Storefront card styles */
+  .storefront-card {
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .storefront-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16/10;
+  }
+  
+  .storefront-caption {
+    padding: 20px;
+    background-color: var(--charcoal);
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+  }
+  
+  .storefront-caption p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  
+  /* Hours table */
+  .hours-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.05rem;
+  }
+  
+  .hours-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(250, 248, 245, 0.03);
+  }
+  
+  .hours-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .weekend-row td {
+    color: var(--ivory);
+  }
+  
+  .hours-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-style: italic;
+  }
+
+  .btn-directions {
+    width: 100%;
+  }
+  
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>

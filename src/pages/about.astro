@@ -1,0 +1,284 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { businessData } from '../data/business';
+
+// Import shop assets
+import aboutImage from '../assets/shop/store2.webp';
+import interiorViewImage from '../assets/shop/store.webp';
+---
+
+<Layout 
+  title="Our Story & Philosophy | The Men’s Lounge Barbershop & Spa" 
+  description="Learn about the philosophy behind The Men's Lounge on Manhattan's Upper East Side. Dedicated to consistency, client consultation, and the art of classic barbering."
+>
+  <!-- Subpage Hero -->
+  <section class="subpage-hero" aria-label="About Page Introduction">
+    <div class="container">
+      <span class="section-subtitle">The Men's Lounge</span>
+      <h1>Our Story</h1>
+      <p>A neighborhood shop built around the values of consistent craftsmanship, close attention, and customer comfort.</p>
+    </div>
+  </section>
+
+  <!-- Narrative Section -->
+  <section class="narrative-section section-spacing">
+    <div class="container narrative-grid">
+      <div class="narrative-text">
+        <span class="section-subtitle">Our Philosophy</span>
+        <h2>Craft, Comfort, and Consistency</h2>
+        <p>
+          At {businessData.officialName}, our focus is simple: we want to give you a great haircut and a comfortable experience every time you sit in our chair. We built the shop to be a welcoming neighborhood lounge rather than a sterile luxury studio. 
+        </p>
+        <p>
+          We know that finding a barber you trust can be difficult. That is why we emphasize consistency above all else. By taking our time, performing detailed consultations, and keeping notes on how you like your hair cut, we ensure that you get the exact same high-quality service on your tenth visit as you did on your first.
+        </p>
+        <p>
+          This dedication to details has drawn a loyal community of regulars. Many of our clients live right here on the Upper East Side and Yorkville, while others travel from outside the immediate neighborhood because they know they will feel taken care of the moment they walk through our door.
+        </p>
+      </div>
+      <div class="narrative-img-wrapper">
+        <Image 
+          src={aboutImage} 
+          alt="Warm amber lighting illuminating the interior seating and styling mirrors at The Men's Lounge" 
+          class="narrative-img"
+        />
+        <div class="glow-overlay-amber"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Space Section -->
+  <section class="space-section section-spacing">
+    <div class="container space-grid">
+      <div class="space-img-wrapper">
+        <Image 
+          src={interiorViewImage} 
+          alt="Wide view of the shop interior showing the guitar, brick wall, and modern hexagonal LED light grids" 
+          class="space-img"
+        />
+        <div class="glow-overlay-blue"></div>
+      </div>
+      <div class="space-text">
+        <span class="section-subtitle">The Space</span>
+        <h2>Classic Craft, Modern Energy</h2>
+        <p>
+          Our shop’s interior was built to have character without pretension. We have designed the space to combine classic barbering details—like deep leather chairs and traditional hot-towel preparation—with modern design accents.
+        </p>
+        <p>
+          Exposed brick walls, custom walnut wood stations, and warm Edison bulbs establish a sense of comfort and old-school craft. Overhead, a geometric, blue-lit hexagonal LED ceiling grid brings a modern, clean New York energy to the space. 
+        </p>
+        <p>
+          It is a space designed for you to unwind. From the background music to the layout of the chairs, we want you to feel relaxed and welcome.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Focus / Consultation Callout -->
+  <section class="focus-callout section-spacing">
+    <div class="container callout-box">
+      <h2>The Consultation is Key</h2>
+      <p>
+        “Before the first clip or cut, tell us how you wear your hair, what has worked before, and what you want changed.”
+      </p>
+      <p class="callout-sub">
+        This is our core promise. We listen before we cut, ensuring your style fits your daily routine and hair type.
+      </p>
+      <div class="callout-actions">
+        <a href={`tel:${businessData.phone}`} class="btn btn-primary">Book Your Chair</a>
+        <a href={`${import.meta.env.BASE_URL}contact/`} class="btn btn-secondary">Find Us</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Narrative split section */
+  .narrative-grid {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+  }
+  
+  .narrative-text {
+    flex: 1.2;
+  }
+  
+  .narrative-text h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .narrative-text p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .narrative-img-wrapper {
+    flex: 0.8;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--steel);
+  }
+  
+  .narrative-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 3/4;
+    border-radius: 4px;
+    display: block;
+  }
+  
+  .glow-overlay-amber {
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    filter: blur(60px);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .narrative-grid {
+      flex-direction: column;
+      gap: 40px;
+    }
+    .narrative-img-wrapper {
+      width: 100%;
+    }
+    .narrative-img {
+      aspect-ratio: 4/3;
+    }
+  }
+
+  /* The Space Section */
+  .space-grid {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 60px;
+    align-items: center;
+  }
+  
+  .space-text {
+    flex: 1.2;
+  }
+  
+  .space-text h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .space-text p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .space-img-wrapper {
+    flex: 0.8;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--steel);
+  }
+  
+  .space-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 3/4;
+    border-radius: 4px;
+    display: block;
+  }
+  
+  .glow-overlay-blue {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--accent-secondary);
+    filter: blur(60px);
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .space-grid {
+      flex-direction: column;
+      gap: 40px;
+    }
+    .space-img-wrapper {
+      width: 100%;
+    }
+    .space-img {
+      aspect-ratio: 4/3;
+    }
+  }
+
+  /* Callout section */
+  .focus-callout {
+    background-color: var(--charcoal);
+    border-top: 1px solid rgba(250, 248, 245, 0.05);
+    border-bottom: 1px solid rgba(250, 248, 245, 0.05);
+  }
+  
+  .callout-box {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .callout-box h2 {
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  
+  .callout-box p {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--text-main);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .callout-box .callout-sub {
+    font-size: 1rem;
+    font-style: normal;
+    color: var(--text-muted);
+    margin-bottom: 35px;
+  }
+  
+  .callout-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  @media (max-width: 600px) {
+    .callout-box p {
+      font-size: 1.2rem;
+    }
+    .callout-actions {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    .callout-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

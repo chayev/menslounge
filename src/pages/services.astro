@@ -1,0 +1,290 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { businessData } from '../data/business';
+
+// Import razor photo for services layout banner
+import servicesBannerImage from '../assets/shop/image.webp';
+
+// Filter published services
+const activeServices = businessData.services.filter(s => s.published);
+
+// Group services by category for structured reading
+const categories = [
+  { key: 'hair', name: 'Haircuts & Styling' },
+  { key: 'beard', name: 'Beard & Detail Work' },
+  { key: 'shave', name: 'Traditional Shaves' },
+  { key: 'combo', name: 'Combos & Packages' }
+];
+---
+
+<Layout 
+  title="Grooming Services & Rates | The Men’s Lounge Barbershop & Spa" 
+  description="Precision haircuts, custom scissor cuts, beard shaping, head shaves, and hot-towel razor shaves on Manhattan's Upper East Side. View our full service list."
+>
+  <!-- Subpage Hero -->
+  <section class="subpage-hero" aria-label="Services Page Introduction">
+    <div class="container">
+      <span class="section-subtitle">Upper East Side NYC</span>
+      <h1>Services & Craft</h1>
+      <p>Precision grooming designed around consistency, comfort, and attention to detail. Every service starts with a personal consultation.</p>
+    </div>
+  </section>
+
+  <!-- Featured Banner Image -->
+  <section class="featured-banner-section" aria-label="Traditional Shaving Tools">
+    <div class="container">
+      <div class="banner-wrapper">
+        <Image 
+          src={servicesBannerImage} 
+          alt="Traditional straight razors used for professional hot-towel shaves at The Men's Lounge" 
+          class="banner-image"
+        />
+        <div class="banner-overlay"></div>
+        <div class="banner-text">
+          <h2>Listen first. Cut second.</h2>
+          <p>Before the first clip or cut, tell us how you wear your hair, what has worked before, and what you want changed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Catalog -->
+  <section class="catalog-section section-spacing">
+    <div class="container">
+      <div class="pricing-notice">
+        <p><strong>Pricing Information:</strong> We prioritize quality, custom work over fast clipper cuts. Please note that exact prices are not listed online. <strong>Call for current pricing and availability.</strong></p>
+      </div>
+
+      <div class="categories-container">
+        {categories.map(cat => {
+          const categoryServices = activeServices.filter(s => s.category === cat.key);
+          if (categoryServices.length === 0) return null;
+          
+          return (
+            <div class="category-block">
+              <h2 class="category-title">{cat.name}</h2>
+              <div class="category-grid">
+                {categoryServices.map(service => (
+                  <div class="service-item">
+                    <div class="service-header-row">
+                      <h3>{service.name}</h3>
+                      <span class="service-price">
+                        {service.price ? `$${service.price}` : "Call to Inquire"}
+                      </span>
+                    </div>
+                    <p class="service-description">{service.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      
+      <div class="consultation-box">
+        <h3>The Consultation Guarantee</h3>
+        <p>
+          We know finding the right barber is about communication. That is why we dedicate time at the start of every visit to align on your style. Whether you want to maintain a classic business cut or transition to a textured scissor style, we make sure we are on the same page before starting.
+        </p>
+        <div style="margin-top: 25px;">
+          <a href={`tel:${businessData.phone}`} class="btn btn-primary">Call to Book Appointment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Banner section styles */
+  .featured-banner-section {
+    padding-top: 40px;
+  }
+  
+  .banner-wrapper {
+    position: relative;
+    height: 300px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    border: 1px solid var(--steel);
+  }
+  
+  .banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  .banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(11, 12, 14, 0.95) 0%, rgba(11, 12, 14, 0.5) 100%);
+    z-index: 2;
+  }
+  
+  .banner-text {
+    position: relative;
+    z-index: 10;
+    max-width: 550px;
+  }
+  
+  .banner-text h2 {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  
+  .banner-text p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 768px) {
+    .banner-wrapper {
+      height: auto;
+      padding: 40px 20px;
+    }
+    .banner-text h2 {
+      font-size: 1.6rem;
+    }
+    .banner-text p {
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Pricing notice */
+  .pricing-notice {
+    background-color: var(--charcoal);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    padding: 20px;
+    margin-bottom: 60px;
+    font-size: 1.05rem;
+  }
+  
+  .pricing-notice p {
+    margin: 0;
+    color: var(--text-main);
+  }
+
+  /* Category block layouts */
+  .category-block {
+    margin-bottom: 60px;
+  }
+  
+  .category-block:last-child {
+    margin-bottom: 0;
+  }
+  
+  .category-title {
+    font-size: 1.8rem;
+    color: var(--ivory);
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--steel);
+    padding-bottom: 10px;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  
+  .service-item {
+    background-color: var(--charcoal);
+    border: 1px solid rgba(250, 248, 245, 0.03);
+    padding: 25px;
+    border-radius: 4px;
+    transition: background-color var(--transition-fast);
+  }
+  
+  .service-item:hover {
+    background-color: var(--charcoal-light);
+  }
+  
+  .service-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .service-header-row h3 {
+    font-size: 1.3rem;
+    color: var(--ivory);
+  }
+  
+  .service-price {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  
+  .service-description {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 768px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* Consultation guarantee box */
+  .consultation-box {
+    background-color: var(--charcoal);
+    border: 1px solid var(--steel);
+    border-radius: 4px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .consultation-box::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--accent-secondary);
+    filter: blur(80px);
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  
+  .consultation-box h3 {
+    font-size: 1.6rem;
+    color: var(--ivory);
+    margin-bottom: 15px;
+  }
+  
+  .consultation-box p {
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,318 @@
+---
+import '@fontsource/oswald/400.css';
+import '@fontsource/oswald/500.css';
+import '@fontsource/oswald/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/700.css';
+import '../styles/global.css';
+
+import { businessData } from '../data/business';
+
+interface Props {
+  title: string;
+  description: string;
+  pageType?: 'website' | 'article';
+}
+
+const { title, description, pageType = 'website' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, businessData.siteUrl);
+
+// Helper to convert "10:00 AM" to "10:00" and "7:30 PM" to "19:30"
+function convertTo24Hour(timeStr: string): string {
+  const parts = timeStr.split(' ');
+  if (parts.length !== 2) return "00:00";
+  const [time, modifier] = parts;
+  let [hours, minutes] = time.split(':');
+  let hr = parseInt(hours, 10);
+  if (modifier === 'PM' && hr < 12) {
+    hr += 12;
+  } else if (modifier === 'AM' && hr === 12) {
+    hr = 0;
+  }
+  return `${String(hr).padStart(2, '0')}:${minutes}`;
+}
+
+// Format opening hours for JSON-LD schema
+const openingHoursSpec = businessData.hours.map((h) => {
+  return {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": h.day,
+    "opens": h.closed ? "00:00" : convertTo24Hour(h.opens),
+    "closes": h.closed ? "00:00" : convertTo24Hour(h.closes)
+  };
+});
+
+// Format services for JSON-LD catalog
+const schemaServices = businessData.services
+  .filter(s => s.published)
+  .map(s => ({
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": s.name,
+      "description": s.description
+    }
+  }));
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BarberShop",
+  "name": businessData.officialName,
+  "image": `${businessData.siteUrl}/assets/shop/store3.webp`,
+  "@id": `${businessData.siteUrl}/#barbershop`,
+  "url": businessData.siteUrl,
+  "telephone": businessData.phone,
+  "priceRange": businessData.priceRange,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": businessData.streetAddress,
+    "addressLocality": businessData.addressLocality,
+    "addressRegion": businessData.addressRegion,
+    "postalCode": businessData.postalCode,
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 40.771801,
+    "longitude": -73.955403
+  },
+  "hasMap": businessData.socials.googleMapsDirections,
+  "openingHoursSpecification": openingHoursSpec,
+  "sameAs": [
+    businessData.socials.instagram,
+    businessData.socials.facebook,
+    businessData.socials.yelp
+  ],
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Upper East Side"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Yorkville"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Manhattan"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Barber & Spa Services",
+    "itemListElement": schemaServices
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO and Canonical -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={pageType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${businessData.siteUrl}/assets/shop/store3.webp`} />
+    <meta property="og:site_name" content={businessData.officialName} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${businessData.siteUrl}/assets/shop/store3.webp`} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to Content</a>
+
+    <!-- Utility bar -->
+    <div class="utility-bar">
+      <div class="container utility-content">
+        <span>📍 {businessData.streetAddress}, {businessData.addressLocality}</span>
+        <span>
+          📅 Walk-Ins Welcome | Call {businessData.displayPhone}
+        </span>
+      </div>
+    </div>
+
+    <!-- Sticky Header -->
+    <header class="header-wrapper">
+      <div class="container navbar">
+        <a href={import.meta.env.BASE_URL} class="logo-link" aria-label="The Men's Lounge Home">
+          <span class="logo-main">{businessData.shortName}</span>
+          <span class="logo-sub">Barbershop & Spa</span>
+        </a>
+
+        <button 
+          id="mobile-menu-toggle" 
+          class="mobile-menu-toggle" 
+          aria-label="Toggle Menu" 
+          aria-expanded="false"
+          aria-controls="nav-links"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav>
+          <ul id="nav-links" class="nav-links">
+            <li>
+              <a href={import.meta.env.BASE_URL} class="nav-link" aria-current={Astro.url.pathname === import.meta.env.BASE_URL ? 'page' : undefined}>Home</a>
+            </li>
+            <li>
+              <a href={`${import.meta.env.BASE_URL}services/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}services/` ? 'page' : undefined}>Services</a>
+            </li>
+            <li>
+              <a href={`${import.meta.env.BASE_URL}about/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}about/` ? 'page' : undefined}>About</a>
+            </li>
+            <li>
+              <a href={`${import.meta.env.BASE_URL}gallery/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}gallery/` ? 'page' : undefined}>Gallery</a>
+            </li>
+            <li>
+              <a href={`${import.meta.env.BASE_URL}contact/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}contact/` ? 'page' : undefined}>Contact</a>
+            </li>
+            <li>
+              <a href={`tel:${businessData.phone}`} class="btn btn-primary nav-cta">Call to Book</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Column 1: Shop details -->
+          <div>
+            <div class="logo-link footer-logo">
+              <span class="logo-main">{businessData.shortName}</span>
+              <span class="logo-sub">Barbershop & Spa</span>
+            </div>
+            <p class="footer-about-text">
+              Precision haircuts, detailed beard work, and traditional hot-towel shaves on the Upper East Side. Experience grooming done right.
+            </p>
+            <div class="footer-socials">
+              <a href={businessData.socials.instagram} target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Instagram">
+                IG
+              </a>
+              <a href={businessData.socials.facebook} target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Facebook">
+                FB
+              </a>
+              <a href={businessData.socials.yelp} target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Yelp">
+                YP
+              </a>
+            </div>
+          </div>
+
+          <!-- Column 2: Hours -->
+          <div>
+            <h3 class="footer-heading">Hours</h3>
+            <ul style="list-style: none; line-height: 1.8;">
+              {businessData.hours.map(h => (
+                <li style="display: flex; justify-content: space-between;">
+                  <span style="font-weight: 500;">{h.day}</span>
+                  <span>{h.closed ? 'Closed' : `${h.opens} - ${h.closes}`}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Column 3: Navigation links -->
+          <div>
+            <h3 class="footer-heading">Links</h3>
+            <ul class="footer-links">
+              <li><a href={import.meta.env.BASE_URL}>Home</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}services/`}>Services & Rates</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}about/`}>Our Story</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}gallery/`}>Shop Gallery</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}contact/`}>Location & Contact</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}privacy/`}>Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Contact info -->
+          <div>
+            <h3 class="footer-heading">Contact</h3>
+            <p style="margin-bottom: 12px;">
+              <strong>Address:</strong><br />
+              <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer">
+                {businessData.streetAddress}<br />
+                {businessData.addressLocality}, {businessData.addressRegion} {businessData.postalCode}
+              </a>
+            </p>
+            <p style="margin-bottom: 12px;">
+              <strong>Phone:</strong><br />
+              <a href={`tel:${businessData.phone}`}>{businessData.displayPhone}</a>
+            </p>
+            <p>
+              <strong>Policy:</strong><br />
+              {businessData.walkInsWelcome ? 'Walk-ins Welcome' : 'By Appointment Only'}<br />
+              {businessData.wheelchairAccessible && 'Wheelchair Accessible'}
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; {new Date().getFullYear()} {businessData.officialName}. All rights reserved.</span>
+          <span>Designed & Built in New York City</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile-only Fixed Bottom Conversion Bar -->
+    <div class="mobile-conversion-bar" aria-label="Quick contact actions">
+      <div class="conversion-grid">
+        <a href={`tel:${businessData.phone}`} class="conversion-btn conversion-btn-left">
+          📞 Call to Book
+        </a>
+        <a href={businessData.socials.googleMapsDirections} target="_blank" rel="noopener noreferrer" class="conversion-btn conversion-btn-right">
+          📍 Get Directions
+        </a>
+      </div>
+    </div>
+
+    <!-- Client Script for Hamburger Navigation -->
+    <script>
+      const toggleButton = document.getElementById('mobile-menu-toggle');
+      const navLinksList = document.getElementById('nav-links');
+
+      if (toggleButton && navLinksList) {
+        toggleButton.addEventListener('click', () => {
+          const isActive = navLinksList.classList.toggle('active');
+          toggleButton.classList.toggle('active');
+          toggleButton.setAttribute('aria-expanded', String(isActive));
+        });
+
+        // Close menu if a link is clicked
+        navLinksList.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinksList.classList.remove('active');
+            toggleButton.classList.remove('active');
+            toggleButton.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
