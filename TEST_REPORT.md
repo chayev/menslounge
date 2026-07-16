@@ -79,6 +79,15 @@ Six bugs/issues were identified during static audits, compilation runs, and E2E 
 - **Fix**: Scoped H1 assertions to `main h1` inside `tests/smoke.spec.ts`, and adjusted mobile scrollWidth checks to check `main` or `body` element bounds instead of the root document.
 - **Status**: **Resolved & Verified**.
 
+### Bug 7: Path Normalization for Favicon and Social Share Preview Assets
+- **Classification**: High
+- **Description**: Favicon did not render, and social rich previews on platforms (Slack, iMessage, Facebook, Twitter) were missing. This occurred because (1) the favicon link was hardcoded to `/favicon.svg`, pointing to the root domain instead of the `/menslounge` subfolder on GitHub Pages, and (2) Open Graph/Twitter meta tags pointed to an unexposed workspace source path (`/assets/shop/store3.webp`).
+- **Fix**:
+  - Generated a dedicated gold-and-black custom OG share banner (`public/og-image.png`) and multi-format favicons (`public/apple-touch-icon.png`, `public/favicon-32x32.png`, `public/favicon-16x16.png`).
+  - Created a mobile shortcut configurations manifest `public/site.webmanifest`.
+  - Configured layout metadata to dynamically prefix these assets and manifest paths via `getPath()` and reference the absolute URL domain path.
+- **Status**: **Resolved & Verified**.
+
 ---
 
 ## 4. Accessibility Audit Results
