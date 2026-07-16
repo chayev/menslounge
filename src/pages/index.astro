@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { businessData } from '../data/business';
+import { getPath } from '../utils/paths';
 
 // Import local assets
 import heroImage from '../assets/shop/store3.webp';
@@ -100,7 +101,7 @@ const yelpReviewsCount = "100+";
 
       <div class="services-cta-container">
         <p>Looking for a complete head shave, color blend, or facial?</p>
-        <a href={`${import.meta.env.BASE_URL}services/`} class="btn btn-secondary">View All Services & Rates</a>
+        <a href={getPath('/services/')} class="btn btn-secondary">View All Services & Rates</a>
       </div>
     </div>
   </section>
@@ -188,7 +189,7 @@ const yelpReviewsCount = "100+";
       </div>
 
       <div style="text-align: center; margin-top: 40px;">
-        <a href={`${import.meta.env.BASE_URL}gallery/`} class="btn btn-secondary">View Full Gallery</a>
+        <a href={getPath('/gallery/')} class="btn btn-secondary">View Full Gallery</a>
       </div>
     </div>
   </section>

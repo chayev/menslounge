@@ -8,6 +8,7 @@ import '@fontsource/inter/700.css';
 import '../styles/global.css';
 
 import { businessData } from '../data/business';
+import { getPath } from '../utils/paths';
 
 interface Props {
   title: string;
@@ -152,7 +153,7 @@ const jsonLd = {
     <!-- Sticky Header -->
     <header class="header-wrapper">
       <div class="container navbar">
-        <a href={import.meta.env.BASE_URL} class="logo-link" aria-label="The Men's Lounge Home">
+        <a href={getPath('/')} class="logo-link" aria-label="The Men's Lounge Home">
           <span class="logo-main">{businessData.shortName}</span>
           <span class="logo-sub">Barbershop & Spa</span>
         </a>
@@ -172,19 +173,19 @@ const jsonLd = {
         <nav>
           <ul id="nav-links" class="nav-links">
             <li>
-              <a href={import.meta.env.BASE_URL} class="nav-link" aria-current={Astro.url.pathname === import.meta.env.BASE_URL ? 'page' : undefined}>Home</a>
+              <a href={getPath('/')} class="nav-link" aria-current={Astro.url.pathname === getPath('/') ? 'page' : undefined}>Home</a>
             </li>
             <li>
-              <a href={`${import.meta.env.BASE_URL}services/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}services/` ? 'page' : undefined}>Services</a>
+              <a href={getPath('/services/')} class="nav-link" aria-current={Astro.url.pathname === getPath('/services/') ? 'page' : undefined}>Services</a>
             </li>
             <li>
-              <a href={`${import.meta.env.BASE_URL}about/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}about/` ? 'page' : undefined}>About</a>
+              <a href={getPath('/about/')} class="nav-link" aria-current={Astro.url.pathname === getPath('/about/') ? 'page' : undefined}>About</a>
             </li>
             <li>
-              <a href={`${import.meta.env.BASE_URL}gallery/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}gallery/` ? 'page' : undefined}>Gallery</a>
+              <a href={getPath('/gallery/')} class="nav-link" aria-current={Astro.url.pathname === getPath('/gallery/') ? 'page' : undefined}>Gallery</a>
             </li>
             <li>
-              <a href={`${import.meta.env.BASE_URL}contact/`} class="nav-link" aria-current={Astro.url.pathname === `${import.meta.env.BASE_URL}contact/` ? 'page' : undefined}>Contact</a>
+              <a href={getPath('/contact/')} class="nav-link" aria-current={Astro.url.pathname === getPath('/contact/') ? 'page' : undefined}>Contact</a>
             </li>
             <li>
               <a href={`tel:${businessData.phone}`} class="btn btn-primary nav-cta">Call to Book</a>
@@ -242,12 +243,12 @@ const jsonLd = {
           <div>
             <h3 class="footer-heading">Links</h3>
             <ul class="footer-links">
-              <li><a href={import.meta.env.BASE_URL}>Home</a></li>
-              <li><a href={`${import.meta.env.BASE_URL}services/`}>Services & Rates</a></li>
-              <li><a href={`${import.meta.env.BASE_URL}about/`}>Our Story</a></li>
-              <li><a href={`${import.meta.env.BASE_URL}gallery/`}>Shop Gallery</a></li>
-              <li><a href={`${import.meta.env.BASE_URL}contact/`}>Location & Contact</a></li>
-              <li><a href={`${import.meta.env.BASE_URL}privacy/`}>Privacy Policy</a></li>
+              <li><a href={getPath('/')}>Home</a></li>
+              <li><a href={getPath('/services/')}>Services & Rates</a></li>
+              <li><a href={getPath('/about/')}>Our Story</a></li>
+              <li><a href={getPath('/gallery/')}>Shop Gallery</a></li>
+              <li><a href={getPath('/contact/')}>Location & Contact</a></li>
+              <li><a href={getPath('/privacy/')}>Privacy Policy</a></li>
             </ul>
           </div>
 

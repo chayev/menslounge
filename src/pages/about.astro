@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { businessData } from '../data/business';
+import { getPath } from '../utils/paths';
 
 // Import shop assets
 import aboutImage from '../assets/shop/store2.webp';
@@ -87,7 +88,7 @@ import interiorViewImage from '../assets/shop/store.webp';
       </p>
       <div class="callout-actions">
         <a href={`tel:${businessData.phone}`} class="btn btn-primary">Book Your Chair</a>
-        <a href={`${import.meta.env.BASE_URL}contact/`} class="btn btn-secondary">Find Us</a>
+        <a href={getPath('/contact/')} class="btn btn-secondary">Find Us</a>
       </div>
     </div>
   </section>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { businessData } from '../data/business';
+import { getPath } from '../utils/paths';
 ---
 
 <Layout 
@@ -20,9 +21,9 @@ import { businessData } from '../data/business';
       </p>
 
       <div class="error-actions">
-        <a href={import.meta.env.BASE_URL} class="btn btn-primary">Go to Home Page</a>
+        <a href={getPath('/')} class="btn btn-primary">Go to Home Page</a>
         <a href={`tel:${businessData.phone}`} class="btn btn-accent">Call to Book</a>
-        <a href={`${import.meta.env.BASE_URL}services/`} class="btn btn-secondary">Our Services</a>
+        <a href={getPath('/services/')} class="btn btn-secondary">Our Services</a>
       </div>
 
       <div class="error-footer-text">
