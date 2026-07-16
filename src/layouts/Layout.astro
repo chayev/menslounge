@@ -117,14 +117,19 @@ const jsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Favicon and App Manifest -->
+    <link rel="icon" type="image/svg+xml" href={getPath('/favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="32x32" href={getPath('/favicon-32x32.png')} />
+    <link rel="icon" type="image/png" sizes="16x16" href={getPath('/favicon-16x16.png')} />
+    <link rel="apple-touch-icon" href={getPath('/apple-touch-icon.png')} />
+    <link rel="manifest" href={getPath('/site.webmanifest')} />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={pageType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${businessData.siteUrl}/assets/shop/store3.webp`} />
+    <meta property="og:image" content={`${businessData.siteUrl}${getPath('/og-image.png')}`} />
     <meta property="og:site_name" content={businessData.officialName} />
 
     <!-- Twitter -->
@@ -132,7 +137,7 @@ const jsonLd = {
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${businessData.siteUrl}/assets/shop/store3.webp`} />
+    <meta name="twitter:image" content={`${businessData.siteUrl}${getPath('/og-image.png')}`} />
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
