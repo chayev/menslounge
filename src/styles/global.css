@@ -325,6 +325,7 @@ main {
 @media (max-width: 900px) {
   .mobile-menu-toggle {
     display: block;
+    margin-left: auto;
   }
   
   .nav-links {
